@@ -1,1 +1,11 @@
 GET http://localhost:3000
+
+####
+ 
+POST  http://localhost:3000
+Content-Length: application/json
+Accept: application/json
+
+{
+  "todo": "belajar NodeJS"
+}
