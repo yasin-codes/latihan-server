@@ -9,3 +9,24 @@ Accept: application/json
 {
   "todo": "belajar NodeJS"
 }
+
+####
+
+PUT   http://localhost:3000
+Content-Length: application/json
+Accept: application/json
+
+{
+  "id": 1,
+  "todo": "belajar React"
+}
+
+####
+
+DELETE   http://localhost:3000
+Content-Length: application/json
+Accept: application/json
+
+{
+  "id": 0
+}

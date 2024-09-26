@@ -30,8 +30,8 @@ export class TodolistService {
   updateTodolist(req, res) {
     req.on("data", (data) => {
       const body = JSON.parse(data.toString());
-      if (this.todolists[body.id] && this.todolists[body.id].todo != body.todo) {
-        this.todolists[body.id].todo = body.todo;
+      if (this.todolists[body.id] && this.todolists[body.id] != body.todo) {
+        this.todolists[body.id] = body.todo;
       }
       this.getTodolist(req, res);
     });
