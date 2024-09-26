@@ -1,45 +1,49 @@
 // import { todo } from "node:test";
 
+import { todo } from "node:test";
+
 export class TodolistService {
-  todolist = [
-    {
-      id: 1,
-      todo: "Belajar NodeJS",
-    },
-    {
-      id: 2,
-      todo: "Belajar JavaScript",
-    },
-  ];
+  todolists = ["Belajar NodeJS", "Belajar Javascript"];
 
   getJsonTodolist() {
-    JSON.stringify({
+    return JSON.stringify({
       code: 200,
       status: "OK",
-      data: this.todolists,
+      data: this.todolists.map((val, idx) => {
+        return { id: idx + 1, todo: val };
+      }),
     });
-    return JSON.stringify(this.todolists);
-    res.end();
   }
 
   getTodolist(req, res) {
-    res.write(this.getJsonTodolist);
-    return this.todolist;
-    res.end();
+    res.end(this.getJsonTodolist());
   }
 
   createTodolist(req, res) {
-    req.addListener("data", (chunk) => {
-      const body = JSON.parse(chunk.toString());
-      this.todolist.push({
-        id: this.todolist.length + 1,
-        todo: body.todo,
-      });
+    req.on("data", (data) => {
+      const body = JSON.parse(data.toString());
+      this.todolists.push({ body, todo });
       this.getTodolist(req, res);
     });
   }
 
-  putTodolist(req, res) {}
+  updateTodolist(req, res) {
+    req.on("data", (data) => {
+      const body = JSON.parse(data.toString());
+      if (this.todolists[body.id] && this.todolists[body.id].todo != body.todo) {
+        this.todolists[body.id].todo = body.todo;
+      }
+      this.getTodolist(req, res);
+    });
+  }
 
-  delTodolist(req, res) {}
+  deleteTodolist(req, res) {
+    req.on("data", (data) => {
+      const body = JSON.parse(data.toString());
+      if (this.todolists[body.id]) {
+        this.todolists.splice(body.id, 1);
+      }
+      this.getTodolist(req, res);
+    });
+  }
 }
